@@ -1,16 +1,28 @@
 package com.mnr.bookstore.service.imp;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mnr.bookstore.model.User;
 import com.mnr.bookstore.model.security.PasswordResetToken;
+import com.mnr.bookstore.model.security.UserRole;
 import com.mnr.bookstore.repository.PasswordResetTokenRepository;
+import com.mnr.bookstore.repository.RoleRepository;
+import com.mnr.bookstore.repository.UserRepository;
 import com.mnr.bookstore.service.UserService;
 
 @Service
 public class UserServiceImp implements UserService {
 	
+	
+	@Autowired 
+	private UserRepository userRepository;
+	 
+	@Autowired
+    private RoleRepository roleRepository;
+	 
 	@Autowired
 	PasswordResetTokenRepository passwordResetTokenRepository;
 
@@ -25,6 +37,38 @@ public class UserServiceImp implements UserService {
 		
 		final PasswordResetToken myToken = new PasswordResetToken(token,user);
 		passwordResetTokenRepository.save(myToken);
+	}
+
+	@Override
+	public User findByUsername(String username) {
+		
+		return userRepository.findByUsername(username);
+	}
+
+	@Override
+	public User findByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
+
+	@Override
+	public User createUser(User user, Set<UserRole> userRole) throws Exception {
+		
+		User localUser = userRepository.findByUsername(user.getUsername());
+		
+		if(localUser !=null)
+		{
+			throw new Exception("user already ecists. Select another");
+		}
+		else {
+			for(UserRole ur : userRole) {
+				roleRepository.save(ur.getRole());
+			}
+			user.getUserRoles().addAll(userRole);
+			
+			localUser = userRepository.save(user);
+			
+		}
+		return localUser;
 	}
 
 }
