@@ -2,6 +2,8 @@ package com.mnr.bookstore.service.imp;
 
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +17,15 @@ import com.mnr.bookstore.service.UserService;
 
 @Service
 public class UserServiceImp implements UserService {
-	
-	
-	@Autowired 
-	private UserRepository userRepository;
-	 
+
+	private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
 	@Autowired
-    private RoleRepository roleRepository;
-	 
+	private UserRepository userRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
+
 	@Autowired
 	PasswordResetTokenRepository passwordResetTokenRepository;
 
@@ -34,14 +37,14 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public void createPasswordResetTokenForUser(User user, String token) {
-		
-		final PasswordResetToken myToken = new PasswordResetToken(token,user);
+
+		final PasswordResetToken myToken = new PasswordResetToken(token, user);
 		passwordResetTokenRepository.save(myToken);
 	}
 
 	@Override
 	public User findByUsername(String username) {
-		
+
 		return userRepository.findByUsername(username);
 	}
 
@@ -52,21 +55,21 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public User createUser(User user, Set<UserRole> userRole) throws Exception {
-		
+
 		User localUser = userRepository.findByUsername(user.getUsername());
-		
-		if(localUser !=null)
-		{
-			throw new Exception("user already ecists. Select another");
-		}
-		else {
-			for(UserRole ur : userRole) {
+
+		if (localUser != null) {
+			// throw new Exception("user already exists. Select another");
+			log.info("user {} already exists!!Choice another...", user.getUsername());
+
+		} else {
+			for (UserRole ur : userRole) {
 				roleRepository.save(ur.getRole());
 			}
 			user.getUserRoles().addAll(userRole);
-			
+
 			localUser = userRepository.save(user);
-			
+
 		}
 		return localUser;
 	}

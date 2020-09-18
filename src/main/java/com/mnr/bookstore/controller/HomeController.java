@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mnr.bookstore.model.User;
 import com.mnr.bookstore.model.security.PasswordResetToken;
@@ -63,7 +64,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/newUser", method = RequestMethod.POST)
-	public String newUserPost(HttpServletRequest request, @ModelAttribute("email") String userEmail,
+	public @ResponseBody String newUserPost(HttpServletRequest request, @ModelAttribute("email") String userEmail,
 			@ModelAttribute("username") String username, Model model) throws Exception {
 
 		model.addAttribute("classActiveNewAccount", true);
@@ -97,15 +98,28 @@ public class HomeController {
 		String token = UUID.randomUUID().toString();
 		userService.createPasswordResetTokenForUser(user, token);
 
-		String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		try {
 
-		SimpleMailMessage email = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user,
-				password);
+			String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort()
+					+ request.getContextPath();
 
-		mailSender.send(email);
-		model.addAttribute("emailSent", true);
+			SimpleMailMessage email = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user,
+					password);
+			System.out.println("-------------------------------->"+email);
+			mailSender.send(email);
+			
+			model.addAttribute("emailSent", true);
+			
+			return "myAccount";
+		}
+		
+		catch (Exception e) {
+			System.out.println("this is Home controler try cathc mailer" + e.getMessage());
+			// e.printStackTrace();
+		}
 
-		return "myAccount";
+		return "";
+		
 
 	}
 
