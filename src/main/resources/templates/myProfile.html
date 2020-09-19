@@ -13,7 +13,7 @@
 		<div class="row">
 			<div class="col-xs-8 col-md-8">
 				<h2 class="section-headline">
-					<span th:text="${#strings.toUpperCase{user.username}}">User
+					<span th:text="${#strings.toUpperCase(user.username)}">User
 						Account</span>
 				</h2>
 			</div>
@@ -39,7 +39,7 @@
 						data-toggle="tab" href="#menu1"><span style="color: red;">
 								Order</span></a></li>
 
-					<li th:classappend="${classActiveBilling}? 'in active'"><a
+					<li class="mr-3" th:classappend="${classActiveBilling}? 'in active'"><a
 						data-toggle="tab" href="#menu2"><span style="color: red;">
 								Billing</span></a></li>
 					<li th:classappend="${classActiveShipping}? 'in active'"><a
@@ -84,7 +84,7 @@
 
 											<label for="userName">Username</label> <input type="text"
 												required="required" class="form-control" name="userName"
-												id="userName" th:value="${user.userName}">
+												id="userName" th:value="${user.username}">
 										</div>
 
 										<div class="from-group">

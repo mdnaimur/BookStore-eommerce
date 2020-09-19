@@ -98,28 +98,16 @@ public class HomeController {
 		String token = UUID.randomUUID().toString();
 		userService.createPasswordResetTokenForUser(user, token);
 
-		try {
+		String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
-			String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort()
-					+ request.getContextPath();
+		SimpleMailMessage email = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user,
+				password);
+		System.out.println("-------------------------------->" + email);
+		mailSender.send(email);
 
-			SimpleMailMessage email = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user,
-					password);
-			System.out.println("-------------------------------->"+email);
-			mailSender.send(email);
-			
-			model.addAttribute("emailSent", true);
-			
-			return "myAccount";
-		}
-		
-		catch (Exception e) {
-			System.out.println("this is Home controler try cathc mailer" + e.getMessage());
-			// e.printStackTrace();
-		}
+		model.addAttribute("emailSent", true);
 
-		return "";
-		
+		return "myAccount";
 
 	}
 
@@ -141,6 +129,7 @@ public class HomeController {
 				userDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
+		model.addAttribute("user", user);
 		model.addAttribute("classActiveEdit", true);
 		return "myProfile";
 	}
