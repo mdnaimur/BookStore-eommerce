@@ -64,9 +64,10 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/newUser", method = RequestMethod.POST)
-	public @ResponseBody String newUserPost(HttpServletRequest request, @ModelAttribute("email") String userEmail,
+	public String newUserPost(HttpServletRequest request, @ModelAttribute("email") String userEmail,
 			@ModelAttribute("username") String username, Model model) throws Exception {
 
+		
 		model.addAttribute("classActiveNewAccount", true);
 		model.addAttribute("email", userEmail);
 		model.addAttribute("username", username);
