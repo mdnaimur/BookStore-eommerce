@@ -3,6 +3,8 @@ package com.mnr.bookstore.service;
 import java.util.Set;
 
 import com.mnr.bookstore.model.User;
+import com.mnr.bookstore.model.UserBilling;
+import com.mnr.bookstore.model.UserPayment;
 import com.mnr.bookstore.model.security.PasswordResetToken;
 import com.mnr.bookstore.model.security.UserRole;
 
@@ -15,5 +17,9 @@ public interface UserService {
 	User findByUsername(String username);
     User findByEmail(String email);
 
+    User save(User user);
+    
 	User createUser(User user, Set<UserRole> userRole) throws Exception;
+
+	void updateUserBilling(UserBilling userBilling, UserPayment userPayment, User user);
 }

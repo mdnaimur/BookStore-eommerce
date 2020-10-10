@@ -16,6 +16,18 @@
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/4.0/examples/navbars/">
 
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+<script>
+	tinymce.init({
+		selector : 'textarea'
+	});
+</script>
+
+<script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<link th:href="@{/css/fontawesome.min.css}" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link th:href="@{/css/datatables.css}" rel="stylesheet">
+<link th:href="@{/css/datatables.min.css}" rel="stylesheet">
 <!-- Bootstrap core CSS -->
 <link href="/css/bootstrap.min.css" rel="stylesheet">
 
@@ -48,8 +60,8 @@
 					<li class="nav-item"><a class="nav-link" href="#">Home <span
 							class="sr-only">(current)</span>
 					</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/bookshelf}">Browse
-							the bookshelf</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/bookshelf}">Browse the bookshelf</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Store
 							House &#38; Directions</a></li>
 
@@ -94,6 +106,8 @@
 
 		<script src="/js/bootstrap.js"></script>
 		<script src="/js/bootstrap.min.js"></script>
+		<script th:src="@{/js/datatables.js}"></script>
+		<script th:src="@{/js/datatables.min.js}"></script>
 
 
 

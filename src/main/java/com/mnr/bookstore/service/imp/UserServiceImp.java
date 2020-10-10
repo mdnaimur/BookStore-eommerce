@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mnr.bookstore.model.User;
+import com.mnr.bookstore.model.UserBilling;
+import com.mnr.bookstore.model.UserPayment;
 import com.mnr.bookstore.model.security.PasswordResetToken;
 import com.mnr.bookstore.model.security.UserRole;
 import com.mnr.bookstore.repository.PasswordResetTokenRepository;
@@ -72,6 +74,22 @@ public class UserServiceImp implements UserService {
 
 		}
 		return localUser;
+	}
+
+	@Override
+	public User save(User user) {
+		return userRepository.save(user);
+	}
+
+	@Override
+	public void updateUserBilling(UserBilling userBilling, UserPayment userPayment, User user) {
+		userPayment.setUser(user);
+		userPayment.setUserBilling(userBilling);
+		userPayment.setDefaultPayment(true);
+		userBilling.setUserPayment(userPayment);
+		user.getUserPaymentList().add(userPayment);
+		save(user);
+
 	}
 
 }
