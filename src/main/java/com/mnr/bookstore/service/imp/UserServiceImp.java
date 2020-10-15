@@ -1,5 +1,6 @@
 package com.mnr.bookstore.service.imp;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -7,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.mnr.bookstore.model.ShoppingCart;
 import com.mnr.bookstore.model.User;
 import com.mnr.bookstore.model.UserBilling;
 import com.mnr.bookstore.model.UserPayment;
@@ -66,6 +69,7 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public User createUser(User user, Set<UserRole> userRole) throws Exception {
 
 		User localUser = userRepository.findByUsername(user.getUsername());
@@ -79,6 +83,12 @@ public class UserServiceImp implements UserService {
 				roleRepository.save(ur.getRole());
 			}
 			user.getUserRoles().addAll(userRole);
+			
+			ShoppingCart shoppingCart = new ShoppingCart();
+			shoppingCart.setUser(user);
+			user.setShoppingCart(shoppingCart);
+			user.setUserShippingList(new ArrayList<UserShipping>());
+			user.setUserPaymentList(new ArrayList<UserPayment>());
 
 			localUser = userRepository.save(user);
 

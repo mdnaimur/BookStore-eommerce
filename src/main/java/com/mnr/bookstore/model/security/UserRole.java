@@ -1,5 +1,6 @@
 package com.mnr.bookstore.model.security;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ public class UserRole {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long userRoleId;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User user;
 
