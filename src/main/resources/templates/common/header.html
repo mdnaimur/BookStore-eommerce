@@ -16,14 +16,7 @@
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/4.0/examples/navbars/">
 
-<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-<script>
-	tinymce.init({
-		selector : 'textarea'
-	});
-</script>
 
-<script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <link th:href="@{/css/fontawesome.min.css}" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link th:href="@{/css/datatables.css}" rel="stylesheet">
@@ -80,7 +73,7 @@
 					</button>
 					<ul class="dropdown-menu p-2 mr-1">
 						<li><a sec:authorize="isAnonymous()" th:href="@{/login}">Login</a></li>
-						<li><a href="#">Shopping Cart</a></li>
+						<li><a th:href="@{/shoppingCart/cart}">Shopping Cart</a></li>
 						<li><a sec:authorize="isAuthenticated()"
 							th:href="@{/myProfile}">My Profile</a></li>
 						<li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a></li>
@@ -108,8 +101,17 @@
 		<script src="/js/bootstrap.min.js"></script>
 		<script th:src="@{/js/datatables.js}"></script>
 		<script th:src="@{/js/datatables.min.js}"></script>
+		
+		 <script th:src="@{/js/scripts.js}"></script>
 
+		<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+		<script>
+			tinymce.init({
+				selector : 'textarea'
+			});
+		</script>
 
+		<script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 
 
 	</div>
