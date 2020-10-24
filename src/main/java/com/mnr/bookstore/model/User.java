@@ -63,6 +63,9 @@ public class User implements UserDetails{
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private List<UserPayment> userPaymentList;
+	
+	@OneToMany(mappedBy="user")
+	private List<Order>orderList;
 
 	public Long getId() {
 		return id;
@@ -123,12 +126,23 @@ public class User implements UserDetails{
 	public boolean isEnaboled() {
 		return enaboled;
 	}
+	
+	
+	
 
 	/*
 	 * public void setEnaboled(boolean enaboled) { this.enaboled = enaboled; }
 	 */
 	
 	
+	public List<Order> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
+	}
+
 	public Set<UserRole> getUserRoles() {
 		return userRoles;
 	}

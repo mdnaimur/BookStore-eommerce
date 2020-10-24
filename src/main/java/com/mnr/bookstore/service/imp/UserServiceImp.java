@@ -153,4 +153,9 @@ public class UserServiceImp implements UserService {
 		save(user);
 	}
 
+	@Override
+	public User findById(Long id) {
+		return userRepository.findById(id).get();
+	}
+
 }
